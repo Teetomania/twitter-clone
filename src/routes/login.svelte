@@ -1,0 +1,34 @@
+<script>
+import {browser} from '$app/env'
+import {goto} from '$app/navigation'
+import {getUser, signIn} from '$lib/services'
+import Error from '$lib/Error.svelte'
+
+// redirect if already loggedin
+const user = getUser() 
+if (browser && user)goto('/')
+
+let email = ''
+
+let signInPromise = Promise.resolve()
+function handleSignIn() {
+signInPromise = signIn()
+}
+</script>
+
+{#await signInPromise}
+ ...Sending magic link to {email}
+{:then {data, error}}
+<Error {error}/>
+
+<form class="form-control" on:submit|preventDefault={handleSignIn}>
+    <label for="email" class="label">
+      <span class="label-text text-4xl">Login to Twitter</span>
+    </label> 
+    <div class="relative">
+      <input id="email" bind:value={email} placeholder="Email" required class="w-full pr-16 input input-primary input-bordered" type="email"> 
+      <button class="absolute top-0 right-0 rounded-l-none btn btn-primary">Get magic link</button>
+    </div>
+</form> 
+{/await}
+    
