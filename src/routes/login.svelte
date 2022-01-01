@@ -12,7 +12,7 @@ let email = ''
 
 let signInPromise = Promise.resolve()
 function handleSignIn() {
-signInPromise = signIn()
+signInPromise = signIn({email})
 }
 </script>
 
@@ -20,7 +20,11 @@ signInPromise = signIn()
  ...Sending magic link to {email}
 {:then {data, error}}
 <Error {error}/>
-
+{#if data}
+<strong class="text-green-600">
+  Successfully sent magic link to {email}
+</strong>
+{:else}
 <form class="form-control" on:submit|preventDefault={handleSignIn}>
     <label for="email" class="label">
       <span class="label-text text-4xl">Login to Twitter</span>
@@ -30,5 +34,6 @@ signInPromise = signIn()
       <button class="absolute top-0 right-0 rounded-l-none btn btn-primary">Get magic link</button>
     </div>
 </form> 
+{/if}
 {/await}
     
