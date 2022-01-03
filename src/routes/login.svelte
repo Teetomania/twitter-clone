@@ -8,9 +8,9 @@ import Error from '$lib/Error.svelte'
 const user = getUser() 
 if (browser && user)goto('/')
 
-let email = ''
+let email = 'omgworld11@gmail.com'
 
-let signInPromise = Promise.resolve()
+let signInPromise = Promise.resolve({})
 function handleSignIn() {
 signInPromise = signIn({email})
 }
